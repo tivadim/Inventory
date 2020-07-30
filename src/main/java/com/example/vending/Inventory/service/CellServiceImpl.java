@@ -7,6 +7,10 @@ import com.example.vending.Inventory.repository.CellRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 @Service
 public class CellServiceImpl implements CellService{
 
@@ -14,7 +18,7 @@ public class CellServiceImpl implements CellService{
     private CellRepository cellRepository;
 
     @Override
-    public void addProducts(String code, int count, int productId) throws WrongCellCodeException, CellOccupiedException {
+    public void addProducts(String code, int productId, int count) throws WrongCellCodeException, CellOccupiedException {
         Cell cell = cellRepository.findFirstByCode(code);
         if (cell == null) {
             throw new WrongCellCodeException(code);
@@ -45,5 +49,18 @@ public class CellServiceImpl implements CellService{
         }
         cellRepository.save(cell);
     }
+
+    @Override
+    public List<Cell> getCells() {
+        return cellRepository.findAll();
+    }
+
+    @Override
+    public Map<Integer, Integer> getProductCount() {
+        List<Cell> occupiedCells = cellRepository.findAllByProductIdIsNotNull();
+        return occupiedCells != null ? occupiedCells.stream().collect(
+                Collectors.groupingBy(Cell::getProductId, Collectors.summingInt(Cell::getProductCount))) : null;
+    }
+
 
 }
