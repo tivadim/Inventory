@@ -21,4 +21,11 @@ public class ProductController {
         productRepository.save(p);
         return productRepository.findAll();
     }
+
+//    @PostMapping()
+//    public List<Product> addProduct(Product, shelf, column) {
+//        Product p = new Product();
+//        productRepository.save(p);
+//        return productRepository.findAll();
+//    }
 }

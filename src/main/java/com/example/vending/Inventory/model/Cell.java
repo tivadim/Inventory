@@ -13,10 +13,15 @@ import javax.persistence.Id;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Product {
+public class Cell {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private String plu;
-    private String name;
+    private String code;
+    private int shelf;
+    private int col;
+    private Integer productId;
+    private Integer productCount;
+
 }
+
